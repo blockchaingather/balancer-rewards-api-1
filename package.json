@@ -2,9 +2,8 @@
   "name": "functions",
   "scripts": {
     "lint": "eslint \"src/**/*\"",
-    "build": "tsc",
-    "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
-    "prod": "tsc && supervisor ./lib/index.js",
+    "dev": "tsc && ts-node-dev --respawn --transpile-only ./src/index.ts",
+    "prod": "tsc && pm2 start ./lib/index.js --name rewards --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {

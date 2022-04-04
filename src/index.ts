@@ -50,8 +50,8 @@ app.get('/liquidity-provider-multitoken/:id', async (req, res) => {
             },
         };
         return res.status(200).send(response);
-    } catch (e) {
-        return res.status(400).send({ success: false, error: e?.message });
+    } catch (err) {
+        return res.status(400).send({ success: false, error: err });
     }
 });
 
