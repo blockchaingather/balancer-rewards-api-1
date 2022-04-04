@@ -1,67 +1,61 @@
-# balancer-rewards-api
+# Balancer Rewards API
 
-Server API built with NodeJS and Express Built to be deployed
+Server API built with NodeJS and Express.
 
-## clone the repo
+###### tags: `Balancer`
 
-```bash
-git clone https://github.com/cryptobadass/balancer-rewards-api.git && cd balancer-rewards-api
+## 1. Clone the code
+
+```bash=
+git clone this-project-code
 ```
 
-## local environment
+## 2. Config .env
 
-### 1. Install dependencies
+Copy .env.example file and rename it to .env. Then fill values in .env file.
 
-```bash
+```config=
+MYSQL_HOST=localhost
+MYSQL_USER=your mysql user
+MYSQL_PASSWORD=your mysql password
+MYSQL_DATABASE=your mysql database
+PORT=server prot
+```
+
+## 3. Production environment
+
+### 3.1. Install dependencies
+
+```bash=
 npm install
-npm install ts-node-dev -g
-```
 
-### 2. Configure .env.development reference .env.example
-
-```bash
-MYSQL_HOST = localhost
-MYSQL_USER = your mysql user
-MYSQL_PASSWORD = your mysql password
-MYSQL_DATABASE = your mysql database
-PORT = server prot
-```
-
-### 3. Start the app
-
-```bash
-npm run dev
-```
-
-## production environment
-
-### 1.Install dependencies
-
-```bash
-npm install
 npm install pm2 -g
 ```
 
-### 2.Configure .env.production reference .env.example and environment variable
+### 3.2. Configure environment variable
 
-> first configure environment variable
-
-```bash
+```bash=
 export NODE_ENV=production
 ```
 
-> second configure .env.production
+### 3.3. Run the project
 
-```bash
-MYSQL_HOST = localhost
-MYSQL_USER = your mysql user
-MYSQL_PASSWORD = your mysql password
-MYSQL_DATABASE = your mysql database
-PORT = server prot
+```bash=
+npm run prod
 ```
 
-### 3.Start the app
+## 4. Local environment
 
-```bash
-npm run prod
+### 4.1. Install dependencies
+
+```bash=
+npm install
+
+npm install ts-node-dev -g
+```
+
+### 4.2. Run the project
+
+```bash=
+npm run dev
 ```
