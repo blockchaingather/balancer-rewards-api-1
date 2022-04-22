@@ -25,6 +25,14 @@ const DbClient = mysql.createPool({
     database: Config.dbConfig.DATABASE,
 });
 
+app.get('/gas', async (req, res) => {
+    const response = {
+        success: true,
+        result: 80549.26751312907,
+    };
+    return res.status(200).send(response);
+});
+
 // get iquidity provider by user address
 app.get('/liquidity-provider-multitoken/:id', async (req, res) => {
     try {
