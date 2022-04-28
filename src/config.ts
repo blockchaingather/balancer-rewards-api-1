@@ -8,8 +8,7 @@ export const dbConfig = {
     HOST: process.env.MYSQL_HOST,
     USER: process.env.MYSQL_USER,
     PASSWORD: process.env.MYSQL_PASSWORD,
-    DATABASE: process.env.MYSQL_DATABASE,
-    PAGE_SIZE: 20,
+    DATABASE: process.env.MYSQL_DATABASE
 };
 
 export const PORT = process.env.PORT;

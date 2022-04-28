@@ -1,0 +1,14 @@
+{
+  "printWidth": 80,
+  "tabWidth": 4,
+  "singleQuote": true,
+  "bracketSpacing": true,
+  "trailingComma": "none",
+  "semi": true,
+  "newline-before-return": true,
+  "no-duplicate-variable": [
+    true,
+    "check-parameters"
+  ],
+  "no-var-keyword": true
+}
