@@ -22,13 +22,13 @@ const DbClient = mysql.createPool({
     host: Config.dbConfig.HOST,
     user: Config.dbConfig.USER,
     password: Config.dbConfig.PASSWORD,
-    database: Config.dbConfig.DATABASE,
+    database: Config.dbConfig.DATABASE
 });
 
 app.get('/gas', async (req, res) => {
     const response = {
         success: true,
-        result: 80549.26751312907,
+        result: 80549.26751312907
     };
     return res.status(200).send(response);
 });
@@ -54,8 +54,8 @@ app.get('/liquidity-provider-multitoken/:id', async (req, res) => {
             success: true,
             result: {
                 current_timestamp: requestedAt,
-                'liquidity-providers': rows,
-            },
+                'liquidity-providers': rows
+            }
         };
         return res.status(200).send(response);
     } catch (err) {
