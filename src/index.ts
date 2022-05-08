@@ -1,80 +1,43 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import * as Config from './config';
 import * as cors from 'cors';
-import * as mysql from 'mysql2/promise';
 
-/**
- *  Set up express app
- */
+// loader config
+import { port } from './config';
+
+// import router
+import liquidityRouter from './routers/liquidity-mining';
+import lbpRouter from './routers/lbp-group';
+import poolRouter from './routers/lbp-pool';
+import jwtRouter from './routers/router';
+
+// import middleware
+// import auth from './middleware/auth';
+import errorHandler from './middleware/err-handle';
+import notFound from './middleware/not-found';
+
+// set up express app
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+
+// loader middleware
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const main = express();
-main.use('/liquidity-mining/v1', app);
-main.use(cors());
-main.use(bodyParser.json());
-main.use(bodyParser.urlencoded({ extended: false }));
+// auth middleware
+// app.use(auth);
 
-const DbClient = mysql.createPool({
-    host: Config.dbConfig.HOST,
-    user: Config.dbConfig.USER,
-    password: Config.dbConfig.PASSWORD,
-    database: Config.dbConfig.DATABASE
-});
+// loader router middleware
+app.use('/liquidity-mining/v1', liquidityRouter);
+app.use('/', lbpRouter);
+app.use('/', poolRouter);
+app.use('/', jwtRouter);
 
-app.get('/gas', async (req, res) => {
-    const response = {
-        success: true,
-        result: 80549.26751312907
-    };
-    return res.status(200).send(response);
-});
+// error handle middleware
+app.use(errorHandler);
+app.use(notFound);
 
-// get iquidity provider by user address
-app.get('/liquidity-provider-multitoken/:id', async (req, res) => {
-    try {
-        const address = req?.params?.id?.toLowerCase();
-
-        if (!address) {
-            throw new Error('must specify an address');
-        }
-        const requestedAt = new Date();
-
-        const rows = await getUserReward(address);
-
-        console.log(
-            '[liquidity-provider-multitoken] typeof:%s, rows:',
-            typeof rows,
-            rows
-        );
-        const response = {
-            success: true,
-            result: {
-                current_timestamp: requestedAt,
-                'liquidity-providers': rows
-            }
-        };
-        return res.status(200).send(response);
-    } catch (err) {
-        return res.status(400).send({ success: false, error: err });
-    }
-});
-
-// get user reward
-const getUserReward = async function (address: string) {
-    const sql = `select id, user_address as address, chain_id, token_address, current_estimate, velocity,week,snapshot_timestamp from every_week_need_reward_user_snapshot where lower(user_address) = '${address}'`;
-
-    console.log('[liquidity-provider-multitoken] sql:', sql);
-
-    const [results] = await DbClient.execute(sql, [address]);
-
-    return results;
-};
-
-const port = Config.PORT || 3000;
-main.listen(port, () => {
+// start server
+app.listen(port, () => {
     console.log(`BAL rewards estimation API started on port ${port}`);
 });

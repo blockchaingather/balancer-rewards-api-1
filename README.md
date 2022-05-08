@@ -20,6 +20,7 @@ MYSQL_USER=your mysql user
 MYSQL_PASSWORD=your mysql password
 MYSQL_DATABASE=your mysql database
 PORT=server prot
+JWT_SECRET= your jwt secret
 ```
 
 ## 3. Production environment
