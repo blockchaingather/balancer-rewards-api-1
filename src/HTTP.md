@@ -1,25 +1,25 @@
 - [LBPs Interface](#lbps-interface)
-  - [LBPs Group List](#lbps-group-list)
-    - [Request](#request)
-    - [Response](#response)
-  - [LBPs Create Group](#lbps-create-group)
-    - [Request](#request-1)
-    - [Response](#response-1)
-  - [LBPs Update Group](#lbps-update-group)
-    - [Request](#request-2)
-    - [Response](#response-2)
-  - [LBPs Pools](#lbps-pools)
-    - [Request](#request-3)
-    - [Resposne](#resposne)
-  - [LBP Pool Create](#lbp-pool-create)
-    - [Request](#request-4)
-    - [Response](#response-3)
-  - [LBPs Pool Detail](#lbps-pool-detail)
-    - [Request](#request-5)
-    - [Response](#response-4)
-  - [Get Token](#get-token)
-    - [Request](#request-6)
-    - [Response](#response-5)
+	- [LBPs Group List](#lbps-group-list)
+		- [Request](#request)
+		- [Response](#response)
+	- [LBPs Create Group](#lbps-create-group)
+		- [Request](#request-1)
+		- [Response](#response-1)
+	- [LBPs Update Group](#lbps-update-group)
+		- [Request](#request-2)
+		- [Response](#response-2)
+	- [LBPs Pools](#lbps-pools)
+		- [Request](#request-3)
+		- [Resposne](#resposne)
+	- [LBP Pool Create](#lbp-pool-create)
+		- [Request](#request-4)
+		- [Response](#response-3)
+	- [LBPs Pool Detail](#lbps-pool-detail)
+		- [Request](#request-5)
+		- [Response](#response-4)
+	- [Get Token](#get-token)
+		- [Request](#request-6)
+		- [Response](#response-5)
 
 ## LBPs Interface
 
@@ -34,7 +34,8 @@
 #### Request
 
 ```
-curl -X GET http://api.yotei.finance/lbps
+curl -X GET https://api.yotei.finance/lbps \
+-H 'token: xxxx'
 ```
 
 #### Response
@@ -67,8 +68,9 @@ curl -X GET http://api.yotei.finance/lbps
 #### Request
 
 ```
-curl -X POST http://api.yotei.finance/lbp/group/create \
+curl -X POST https://api.yotei.finance/lbp/group/create \
   -H 'Content-Type: application/json' \
+  -H 'token: xxxx' \
   -d '{
 		 "title":"xxxxx",
 		 "description": "xxxx",
@@ -107,8 +109,9 @@ curl -X POST http://api.yotei.finance/lbp/group/create \
 #### Request
 
 ```
-curl -X POST http://api.yotei.finance/lbp/group/update/<group_id> \
+curl -X POST https://api.yotei.finance/lbp/group/update/<group_id> \
   -H 'Content-Type: application/json' \
+  -H 'token: xxxx' \
   -d '{
 		 "title":"xxxxx",
 		 "description": "xxxx",
@@ -146,7 +149,8 @@ curl -X POST http://api.yotei.finance/lbp/group/update/<group_id> \
 #### Request
 
 ```
-curl -X GET http://api.yotei.finance/pools?group_id=<group_id>
+curl -X GET https://api.yotei.finance/pools?group_id=<group_id> \
+-H 'token: xxxx'
 ```
 
 #### Resposne
@@ -176,8 +180,9 @@ curl -X GET http://api.yotei.finance/pools?group_id=<group_id>
 #### Request
 
 ```
-curl -X POST http://api.yotei.finance/pool/create \
+curl -X POST https://api.yotei.finance/pool/create \
   -H 'Content-Type: application/json' \
+  -H 'token: xxxx' \
   -d '{
       "group_id":1,
 	  "network_id":1,
@@ -238,7 +243,8 @@ curl -X POST http://api.yotei.finance/pool/create \
 #### Request
 
 ```
-curl -X GET http://api.yotei.finance/pool/<id>
+curl -X GET https://api.yotei.finance/pool/<id> \
+-H 'token: xxxx'
 ```
 
 #### Response
@@ -283,7 +289,7 @@ curl -X GET http://api.yotei.finance/pool/<id>
 #### Request
 
 ```
-curl -X GET http://api.yotei.finance/getToken
+curl -X GET https://api.yotei.finance/getToken
 ```
 
 #### Response
