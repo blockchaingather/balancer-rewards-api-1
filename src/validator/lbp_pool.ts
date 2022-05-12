@@ -44,6 +44,9 @@ const lbpPool = {
         body('owner_address').notEmpty().isString().isLength({
             min: 42
         }),
+        body('pool_id').notEmpty().isString().isLength({
+            min: 42
+        }),
         body('pool_address').notEmpty().isString().isLength({
             min: 42
         }),

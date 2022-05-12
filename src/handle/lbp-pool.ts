@@ -7,14 +7,12 @@ import logger from '../utils/logger';
 const pool = {
     async list(req: express.Request, res: express.Response) {
         const reqTime = new Date().getTime();
-        // record request log
-        logger.Request(req, reqTime);
         // receive body data
         const group_id = req?.query?.group_id;
         // query results
         const sql = `SELECT id, lbp_name, price, start_time, end_time, network_id, image_url FROM lbp_pool WHERE deleted=${constants.NOT_DELETED} and group_id=${group_id}`;
         console.log('[pool->list] sql:', sql);
-        const [results] = await dbClient.execute(sql);
+        const [results] = await dbClient.execute(sql, [constants.NOT_DELETED]);
         const response = {
             success: true,
             result: results
@@ -41,6 +39,7 @@ const pool = {
         const start_time = req?.body?.start_time;
         const end_time = req?.body?.end_time;
         const owner_address = req?.body?.owner_address;
+        const pool_id = req?.body?.pool_id;
         const pool_address = req?.body?.pool_address;
         const blocked_countries = req?.body?.blocked_countries;
         const lbp_creation_tx = req?.body?.lbp_creation_tx;
@@ -71,8 +70,8 @@ const pool = {
         // insert data
         try {
             const sql = `INSERT INTO lbp_pool(group_id, network_id, 
-                lbp_name, lbp_symbol, main_token,base_token,image_url,description,price,learn_more_url,swap_fee,start_time,end_time, owner_address, pool_address, blocked_countries, lbp_creation_tx) 
-                values(${group_id},${network_id},'${lbp_name}','${lbp_symbol}','${main_token}','${base_token}','${image_url}','${description}','${price}','${learn_more_url}','${swap_fee}',${start_time},${end_time},'${owner_address}','${pool_address}','${blocked_countries}', '${lbp_creation_tx}')`;
+                lbp_name, lbp_symbol, main_token,base_token,image_url,description,price,learn_more_url,swap_fee,start_time,end_time, owner_address, pool_id, pool_address, blocked_countries, lbp_creation_tx) 
+                values(${group_id},${network_id},'${lbp_name}','${lbp_symbol}','${main_token}','${base_token}','${image_url}','${description}','${price}','${learn_more_url}','${swap_fee}',${start_time},${end_time},'${owner_address}', '${pool_id}', '${pool_address}','${blocked_countries}', '${lbp_creation_tx}')`;
             console.log('[pool->create] sql:', sql);
             const [results] = await dbClient.execute(sql);
             // type assert
@@ -97,6 +96,7 @@ const pool = {
                     start_time,
                     end_time,
                     owner_address,
+                    pool_id,
                     pool_address,
                     blocked_countries,
                     lbp_creation_tx

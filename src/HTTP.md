@@ -198,6 +198,7 @@ curl -X POST https://api.yotei.finance/pool/create \
 	  "start_time":0,
 	  "end_time":0,
 	  "owner_address":"xxx",
+	  "pool_id":"xxx",
 	  "pool_address":"xxx",
 	  "blocked_countries":["us","cn"],
 	  "lbp_creation_tx": "xxxx"
@@ -225,6 +226,7 @@ curl -X POST https://api.yotei.finance/pool/create \
 			  "start_time":0,
 			  "end_time":0,
 			  "owner_address":"xxx",
+			  "pool_id":"xxx",
 			  "pool_address":"xxx",
 			  "blocked_countries":["us","cn"],
 			  "lbp_creation_tx": "xxxx"
@@ -264,6 +266,7 @@ curl -X GET https://api.yotei.finance/pool/<id> \
 	    "price":0,
 		"lbp_creation_tx": "0x38f93ab92e2482c15b0d453fc453526dcd910691a44e8e58105abc9394c5e0a1",
 		"owner_address": "0x648715fbf07d63bb9f49e763fd18a8c249e56420",
+		"pool_id": "xxxxx",
 		"pool_address": "0xd20f6F1D8a675cDCa155Cb07b5dC9042c467153f",
 		"swap_fee":0,
 	    "start_time":0,
