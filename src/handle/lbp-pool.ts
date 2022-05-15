@@ -125,6 +125,8 @@ const pool = {
                 blocked_countries,
                 lbp_creation_tx
             };
+
+            dataField.blocked_countries = dataField.blocked_countries.join(',');
             result.set(dataField);
             const results = await result.save();
             // console.log('results:', results.get());
