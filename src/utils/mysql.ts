@@ -1,6 +1,5 @@
 import * as Config from '../config';
 import * as mysql from 'mysql2/promise';
-
 // create mysql pool
 const dbClient = mysql.createPool({
     host: Config.dbConfig.HOST,

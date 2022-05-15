@@ -1,4 +1,4 @@
--   [Balancer Rewards API](#balancer-rewards-api) - [tags: `Balancer`](#tags-balancer)
+*   [Balancer Rewards API](#balancer-rewards-api) - [tags: `Balancer`](#tags-balancer)
     -   [1. Clone the code](#1-clone-the-code)
     -   [2. Config .env](#2-config-env)
     -   [3. Production environment](#3-production-environment)
@@ -8,7 +8,6 @@
     -   [4. Local environment](#4-local-environment)
         -   [4.1. Install dependencies](#41-install-dependencies)
         -   [4.2. Run the project](#42-run-the-project)
-
 # Balancer Rewards API
 
 Server API built with NodeJS and Express.
@@ -19,6 +18,7 @@ Server API built with NodeJS and Express.
 
 ```bash=
 git clone this-project-code
+
 ```
 
 ## 2. Config .env
@@ -42,6 +42,7 @@ JWT_SECRET= your jwt secret
 npm install
 
 npm install pm2 -g
+
 ```
 
 ### 3.2. Configure environment variable
@@ -54,6 +55,7 @@ export NODE_ENV=production
 
 ```bash=
 npm run prod
+
 ```
 
 ## 4. Local environment

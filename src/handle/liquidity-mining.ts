@@ -1,17 +1,6 @@
 import * as express from 'express';
 
-import dbClient from '../utils/mysql';
-
-// get user reward
-const getUserReward = async function (address: string) {
-    const sql = `select id, user_address as address, chain_id, token_address, current_estimate, velocity,week,snapshot_timestamp from every_week_need_reward_user_snapshot where lower(user_address) = '${address}'`;
-
-    console.log('[liquidity-provider-multitoken] sql:', sql);
-
-    const [results] = await dbClient.execute(sql, [address]);
-
-    return results;
-};
+import LiquidityMining from '../models/liquidity-mining';
 
 const liquidity = {
     async gas(req: express.Request, res: express.Response) {
@@ -30,23 +19,25 @@ const liquidity = {
             }
             const requestedAt = new Date();
 
-            const rows = await getUserReward(address);
-
-            console.log(
-                '[liquidity-provider-multitoken] typeof:%s, rows:',
-                typeof rows,
-                rows
-            );
+            const results = await LiquidityMining.findAll({
+                where: {
+                    user_address: address.toLowerCase()
+                }
+            });
             const response = {
                 success: true,
                 result: {
                     current_timestamp: requestedAt,
-                    'liquidity-providers': rows
+                    'liquidity-providers': results
                 }
             };
             return res.status(200).send(response);
         } catch (err) {
-            return res.status(400).send({ success: false, error: err });
+            console.log('liquidity->providers err:', err);
+            return res.status(500).send({
+                success: false,
+                result: 'no liquidity providers were found'
+            });
         }
     }
 };

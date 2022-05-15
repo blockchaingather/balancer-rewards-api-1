@@ -1,42 +1,64 @@
 import * as express from 'express';
-import dbClient from '../utils/mysql';
-import * as mysql from 'mysql2';
 import constants from '../constant/constants';
-
 import logger from '../utils/logger';
+import LbpGroup from '../models/lbp-group';
+import pagination from '../utils/pagination';
 
 const lbp = {
     async list(req: express.Request, res: express.Response) {
         const reqTime = new Date().getTime();
-        // query results
-        const sql = `SELECT id, title, description, image_url, link FROM lbp_group WHERE deleted=${constants.NOT_DELETED}`;
-        console.log('[lbp->list] sql:', sql);
-        const [results] = await dbClient.execute(sql, [constants.NOT_DELETED]);
-        console.log('lbp->list->results:', results);
+        const [currentPage, pageSize] = await pagination(req);
         const response = {
             success: true,
-            result: results
+            count: 0,
+            result: []
         };
-        logger.Response(req, res, response, reqTime);
-        return res.status(200).send(response);
+        try {
+            const { count, rows } = await LbpGroup.findAndCountAll({
+                attributes: [
+                    'id',
+                    'title',
+                    'description',
+                    'image_url',
+                    'link',
+                    'seq'
+                ],
+                where: {
+                    deleted: constants.NOT_DELETED
+                },
+                raw: true,
+                offset: (currentPage - 1) * pageSize,
+                limit: pageSize
+            });
+            // console.log('lbp->list->rows:', rows);
+            const response = {
+                success: true,
+                count,
+                result: rows
+            };
+            logger.Response(req, res, response, reqTime);
+            return res.status(200).send(response);
+        } catch (err) {
+            console.log('lbp->err:', err);
+            return res.status(200).send(response);
+        }
     },
 
     async create(req: express.Request, res: express.Response) {
         const reqTime = new Date().getTime();
         // receive body data
-        const title = req?.body?.title;
-        const description = req?.body?.description;
-        const image_url = req?.body?.image_url;
-        const link = req?.body?.link;
-        const seq = req?.body?.seq || 1;
+        const title: string = req?.body?.title;
+        const description: string = req?.body?.description;
+        const image_url: string = req?.body?.image_url;
+        const link: string = req?.body?.link;
+        const seq: number = req?.body?.seq || 1;
 
         // check data exists
-        const querySQL = `SELECT * FROM lbp_group WHERE deleted=${constants.NOT_DELETED} and title='${title}'`;
-        console.log('[lbp->create] querySQL:', querySQL);
-        const [queryResults] = await dbClient.execute(querySQL);
-        console.log('pool-> queryResults:', queryResults);
-        const queryResult = queryResults as mysql.RowDataPacket[];
-        if (queryResult.length > 0) {
+        const lbpGroupResult = await LbpGroup.findOne({
+            where: { title: title, deleted: constants.NOT_DELETED }
+        });
+        console.log('lbpGroupResult:', lbpGroupResult?.get());
+        if (lbpGroupResult !== null) {
             return res.status(500).send({
                 success: false,
                 result: 'data already exists'
@@ -44,25 +66,26 @@ const lbp = {
         }
 
         // insert data
-        const sql = `INSERT INTO lbp_group(title, description, image_url, link, seq) values('${title}', '${description}', '${image_url}', '${link}', ${seq})`;
-        console.log('[lbp->create] sql:', sql);
-        const [results] = await dbClient.execute(sql);
-
-        // type assert
-        const result = results as mysql.ResultSetHeader;
-        console.log('lbp->results:', result);
-
+        const result = await LbpGroup.build();
+        const dataField = {
+            title,
+            description,
+            image_url,
+            link,
+            seq
+        };
+        result.set(dataField);
+        const results = await result.save();
+        // console.log('lbp->create->results:', results.get());
         // response data
         const response = {
             success: true,
-            result: {
-                id: result.insertId,
-                title,
-                description,
-                image_url,
-                link,
-                seq
-            }
+            result: Object.assign(
+                {
+                    id: results.id
+                },
+                dataField
+            )
         };
         logger.Response(req, res, response, reqTime);
         return res.status(200).send(response);
@@ -70,44 +93,46 @@ const lbp = {
 
     async update(req: express.Request, res: express.Response) {
         const reqTime = new Date().getTime();
+
         // receive params
-        const id = req?.params?.id;
+        const id = Number(req?.params?.id);
+
         // receive body data
-        const title = req?.body?.title;
-        const description = req?.body?.description;
-        const image_url = req?.body?.image_url;
-        const link = req?.body?.link;
-        const seq = req?.body?.seq;
-        const deleted = req?.body?.deleted;
-        // check data exists
-        const querySQL = `SELECT * FROM lbp_group WHERE deleted=${constants.NOT_DELETED} and id=${id}`;
-        console.log('[pool->detail] querySQL:', querySQL);
-        const [queryResults] = await dbClient.execute(querySQL);
-        console.log('pool-> queryResults:', queryResults);
-        const queryResult = queryResults as mysql.RowDataPacket[];
-        if (queryResult.length == 0) {
+        const title: string = req?.body?.title;
+        const description: string = req?.body?.description;
+        const image_url: string = req?.body?.image_url;
+        const link: string = req?.body?.link;
+        const seq: number = req?.body?.seq;
+        const deleted: number = req?.body?.deleted;
+
+        // check data exists and update data
+        const results = await LbpGroup.findOne({ where: { id } })
+            .then((lbpGroup) => {
+                const lbpGroupObj = lbpGroup as LbpGroup;
+                lbpGroupObj.title = title;
+                lbpGroupObj.description = description;
+                lbpGroupObj.image_url = image_url;
+                lbpGroupObj.link = link;
+                lbpGroupObj.seq = seq;
+                lbpGroupObj.deleted = deleted;
+                return lbpGroupObj.save();
+            })
+            .catch(function (err) {
+                console.log('lbp update err:', err);
+            });
+
+        //no data found
+        if (results === undefined) {
             return res.status(500).send({
                 success: false,
                 result: 'no data found'
             });
         }
-        // update data
-        const sql = `UPDATE lbp_group SET title='${title}', description='${description}', image_url='${image_url}', link='${link}', seq=${seq}, deleted=${deleted} WHERE id=${id}`;
-        console.log('[lbp->create] sql:', sql);
-        const [results] = await dbClient.execute(sql);
-        console.log('lbp->results:', results);
+        // console.log('lbp->update->results:', results.get());
         // response data
         const response = {
             success: true,
-            result: {
-                id,
-                title,
-                description,
-                image_url,
-                link,
-                seq,
-                deleted
-            }
+            result: results.get()
         };
         logger.Response(req, res, response, reqTime);
         return res.status(200).send(response);

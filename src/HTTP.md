@@ -34,7 +34,7 @@
 #### Request
 
 ```
-curl -X GET https://api.yotei.finance/lbps \
+curl -X GET https://api.yotei.finance/lbps?current_page=1&page_size=20 \
 -H 'token: xxxx'
 ```
 
@@ -43,6 +43,7 @@ curl -X GET https://api.yotei.finance/lbps \
 ```
 {
 	"success":true,
+	"count":0,
 	"result":
 	[{
 		 "id": 1,
@@ -140,7 +141,7 @@ curl -X POST https://api.yotei.finance/lbp/group/update/<group_id> \
 
 ### LBPs Pools
 
-> endpoint：/pools?group_id=< group_id >
+> endpoint：/pools?group_id=< group_id >&current_page=1&page_size=20
 
 > method：GET
 
@@ -149,7 +150,7 @@ curl -X POST https://api.yotei.finance/lbp/group/update/<group_id> \
 #### Request
 
 ```
-curl -X GET https://api.yotei.finance/pools?group_id=<group_id> \
+curl -X GET https://api.yotei.finance/pools?group_id=<group_id> &current_page=1&page_size=20 \
 -H 'token: xxxx'
 ```
 
@@ -158,6 +159,7 @@ curl -X GET https://api.yotei.finance/pools?group_id=<group_id> \
 ```
 {
 	"success":true,
+	"count":0,
 	"result":	[{
 		"lbp_name":"xxx",
 		"price": 0,
@@ -236,7 +238,7 @@ curl -X POST https://api.yotei.finance/pool/create \
 
 ### LBPs Pool Detail
 
-> endpoint：/pool/< id >
+> endpoint：/pool/< pool_id >
 
 > method：GET
 
@@ -245,7 +247,7 @@ curl -X POST https://api.yotei.finance/pool/create \
 #### Request
 
 ```
-curl -X GET https://api.yotei.finance/pool/<id> \
+curl -X GET https://api.yotei.finance/pool/< pool_id > \
 -H 'token: xxxx'
 ```
 

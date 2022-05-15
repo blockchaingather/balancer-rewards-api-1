@@ -1,14 +1,25 @@
-import { body } from 'express-validator';
+import { body, query } from 'express-validator';
 
 import validator from '../middleware/validator';
 
 const lbpGroup = {
     list: validator([
-        body('title').isEmpty(),
-        body('description').isEmpty(),
-        body('image_url').isEmpty(),
-        body('link').isEmpty(),
-        body('seq').isNumeric()
+        query('current_page')
+            .optional()
+            .notEmpty()
+            .withMessage('can not empty')
+            .isInt({
+                gt: 0
+            })
+            .withMessage('must be greater than 0'),
+        query('page_size')
+            .optional()
+            .notEmpty()
+            .withMessage('can not empty')
+            .isInt({
+                gt: 0
+            })
+            .withMessage('must be greater than 0')
     ]),
     create: validator([
         body('title').notEmpty(),

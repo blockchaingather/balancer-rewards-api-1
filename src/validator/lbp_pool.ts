@@ -5,8 +5,26 @@ import validator from '../middleware/validator';
 const lbpPool = {
     list: validator([
         query('group_id')
+            .optional()
             .notEmpty()
+            .withMessage('can not empty')
             .isInt({ gt: 0 })
+            .withMessage('must be greater than 0'),
+        query('current_page')
+            .optional()
+            .notEmpty()
+            .withMessage('can not empty')
+            .isInt({
+                gt: 0
+            })
+            .withMessage('must be greater than 0'),
+        query('page_size')
+            .optional()
+            .notEmpty()
+            .withMessage('can not empty')
+            .isInt({
+                gt: 0
+            })
             .withMessage('must be greater than 0')
     ]),
     create: validator([
@@ -57,10 +75,13 @@ const lbpPool = {
     ]),
 
     detail: validator([
-        param('id')
+        param('pool_id')
             .notEmpty()
-            .isInt({ gt: 0 })
-            .withMessage('must be greater than 0')
+            .withMessage('can not empty')
+            .isString()
+            .isLength({
+                min: 42
+            })
     ])
 };
 
