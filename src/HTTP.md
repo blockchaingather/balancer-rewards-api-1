@@ -164,8 +164,8 @@ curl -X GET https://api.yotei.finance/pools?group_id=<group_id> &current_page=1&
 	"count":0,
 	"result":
 	[{
-		'pool_id',
-		'pool_address',
+		'pool_id':"xxx",
+		'pool_address':"xxx",
 		"lbp_name":"xxx",
 		"price": 0,
 		"start_time": 0,
