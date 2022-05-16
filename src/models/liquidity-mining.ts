@@ -11,26 +11,26 @@ export default class liquidityMining extends Model<liquidityMining> {
         autoIncrement: true,
         type: DataType.INTEGER
     })
-    id?: number;
+    declare id: number;
 
     @Column(DataType.INTEGER)
-    chain_id?: number;
+    declare chain_id: number;
 
     @Column(DataType.STRING)
-    pool_address?: string;
+    declare pool_address: string;
 
     @Column(DataType.STRING)
-    token_address?: string;
+    declare token_address: string;
 
     @Column(DataType.STRING)
-    user_address?: string;
+    declare user_address: string;
 
     @Column(DataType.STRING)
-    current_estimate?: string;
+    declare current_estimate: string;
 
     @Column(DataType.STRING)
-    velocity?: string;
+    declare velocity: string;
 
     @Column(DataType.INTEGER)
-    week?: number;
+    declare week: number;
 }

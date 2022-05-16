@@ -56,6 +56,8 @@ curl -X GET https://api.yotei.finance/lbps?current_page=1&page_size=20 \
 }
 ```
 
+> notice: No parameters are transmitted. The first 20 pieces of data are returned by default
+
 ### LBPs Create Group
 
 > endpoint：/lbp/group/create
@@ -160,23 +162,31 @@ curl -X GET https://api.yotei.finance/pools?group_id=<group_id> &current_page=1&
 {
 	"success":true,
 	"count":0,
-	"result":	[{
+	"result":
+	[{
+		'pool_id',
+		'pool_address',
 		"lbp_name":"xxx",
 		"price": 0,
 		"start_time": 0,
 		"end_time": 0,
 		"network": 1,
 		"image_url": "xxx",
-	    "id":1
+		"id":1
 	}]
 }
 ```
 
+> notice: No parameters are transmitted. The first 20 pieces of data are returned by default
+
 ### LBP Pool Create
 
 > endpoint：/pool/create
-> method：POST
+
+> method：POST 
+
 > header：application/json
+
 > data type：json
 
 #### Request
@@ -186,54 +196,54 @@ curl -X POST https://api.yotei.finance/pool/create \
   -H 'Content-Type: application/json' \
   -H 'token: xxxx' \
   -d '{
-      "group_id":1,
-	  "network_id":1,
-	  "lbp_name":"",
-	  "lbp_symbol":"",
-	  "main_token":"xxxx",
-	  "base_token":"xxxx",
-	  "image_url":"xxxx",
-	  "description":"xxxx",
-	  "price":0,
-	  "learn_more_url":"xxx"
-	  "swap_fee":0,
-	  "start_time":0,
-	  "end_time":0,
-	  "owner_address":"xxx",
-	  "pool_id":"xxx",
-	  "pool_address":"xxx",
-	  "blocked_countries":["us","cn"],
-	  "lbp_creation_tx": "xxxx"
+		"group_id":1,
+		"network_id":1,
+		"lbp_name":"",
+		"lbp_symbol":"",
+		"main_token":"xxxx",
+		"base_token":"xxxx",
+		"image_url":"xxxx",
+		"description":"xxxx",
+		"price":0,
+		"learn_more_url":"xxx"
+		"swap_fee":0,
+		"start_time":0,
+		"end_time":0,
+		"owner_address":"xxx",
+		"pool_id":"xxx",
+		"pool_address":"xxx",
+		"blocked_countries":["us","cn"],
+		"lbp_creation_tx": "xxxx"
 	}'
 ```
 
 #### Response
 
 ```
-	{
-		"success":true,
-		"result":{
-			  "id":1,
-			  "group_id":1,
-			  "network_id":1,
-			  "lbp_name":"",
-			  "lbp_symbol":"",
-			  "main_token":"xxxx",
-			  "base_token":"xxxx",
-			  "image_url":"xxxx",
-			  "description":"xxxx",
-			  "price":0,
-			  "learn_more_url":"xxx",
-			  "swap_fee":0,
-			  "start_time":0,
-			  "end_time":0,
-			  "owner_address":"xxx",
-			  "pool_id":"xxx",
-			  "pool_address":"xxx",
-			  "blocked_countries":["us","cn"],
-			  "lbp_creation_tx": "xxxx"
-	    }
+{
+	"success":true,
+	"result":{
+		"id":1,
+		"group_id":1,
+		"network_id":1,
+		"lbp_name":"",
+		"lbp_symbol":"",
+		"main_token":"xxxx",
+		"base_token":"xxxx",
+		"image_url":"xxxx",
+		"description":"xxxx",
+		"price":0,
+		"learn_more_url":"xxx",
+		"swap_fee":0,
+		"start_time":0,
+		"end_time":0,
+		"owner_address":"xxx",
+		"pool_id":"xxx",
+		"pool_address":"xxx",
+		"blocked_countries":["us","cn"],
+		"lbp_creation_tx": "xxxx"
 	}
+}
 ```
 
 ### LBPs Pool Detail
@@ -259,20 +269,20 @@ curl -X GET https://api.yotei.finance/pool/< pool_id > \
 	"result": {
 		"id":1,
 		"group_id":1,
-	    "lbp_name":"",
-	    "lbp_symbol":"",
-	    "main_token":"xxxx",
-	    "base_token":"xxxx",
-	    "image_url":"xxxx",
-	    "description":"xxxx",
-	    "price":0,
+		"lbp_name":"",
+		"lbp_symbol":"",
+		"main_token":"xxxx",
+		"base_token":"xxxx",
+		"image_url":"xxxx",
+		"description":"xxxx",
+		"price":0,
 		"lbp_creation_tx": "0x38f93ab92e2482c15b0d453fc453526dcd910691a44e8e58105abc9394c5e0a1",
 		"owner_address": "0x648715fbf07d63bb9f49e763fd18a8c249e56420",
 		"pool_id": "xxxxx",
 		"pool_address": "0xd20f6F1D8a675cDCa155Cb07b5dC9042c467153f",
 		"swap_fee":0,
-	    "start_time":0,
-	    "end_time":0,
+		"start_time":0,
+		"end_time":0,
 		"blocked_countries": [
 			"us",
 			"cn"

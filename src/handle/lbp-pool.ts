@@ -29,6 +29,8 @@ const pool = {
             const { count, rows } = await LbpPool.findAndCountAll({
                 attributes: [
                     'id',
+                    'pool_id',
+                    'pool_address',
                     'lbp_name',
                     'price',
                     'start_time',
